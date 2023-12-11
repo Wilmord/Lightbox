@@ -3,6 +3,9 @@ project( Lightbox )
 
 set(EXPORT_COMPILE_COMMANDS ON)
 
+if(MSVC)
+
+set(OpenCV_DIR "${CMAKE_SOURCE_DIR}/../Dependencies/opencv/build")
 
 add_compile_options(
     # Always generate pdb's
@@ -22,11 +25,9 @@ add_compile_options(
     # WX Treat warnings as errors.
     /WX
 )
-
-#message(${CMAKE_SOURCE_DIR})
-#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/Dependencies/opencv/build")
-
-set(OpenCV_DIR "${CMAKE_SOURCE_DIR}/../Dependencies/opencv/build")
+else()
+set(CMAKE_CXX_STANDARD 20)
+endif()
 
 # include OpenCV
 find_package(OpenCV 4 REQUIRED)
