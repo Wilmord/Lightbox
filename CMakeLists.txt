@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.25)
 project( Lightbox )
 
 set(EXPORT_COMPILE_COMMANDS ON)
@@ -25,8 +25,16 @@ add_compile_options(
     # WX Treat warnings as errors.
     /WX
 )
-else()
+# This means the only thing you will need is the experimental key and this flag
+set(CMAKE_EXPERIMENTAL_CXX_MODULE_DYNDEP 1)
+endif()
+
+set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API "aa1f7df0-828a-4fcd-9afc-2dc80491aca7")
 set(CMAKE_CXX_STANDARD 20)
+
+# using Clang
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+set(CMAKE_CXX_EXTENSIONS Off)
 endif()
 
 # include OpenCV
@@ -34,3 +42,4 @@ find_package(OpenCV 4 REQUIRED)
 
 
 add_subdirectory(Lightbox)
+add_subdirectory(Display)

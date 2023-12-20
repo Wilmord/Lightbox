@@ -1,4 +1,12 @@
 
 include_directories( ${OpenCV_INCLUDE_DIRS} )
-add_executable(Lightbox main.cpp )
-target_link_libraries(Lightbox ${OpenCV_LIBS})
+
+set(SOURCE
+  main.cpp
+)
+
+set(HEADERS
+)
+
+add_executable(Lightbox ${SOURCE} ${HEADERS} )
+target_link_libraries(Lightbox PRIVATE ${OpenCV_LIBS} Display)
