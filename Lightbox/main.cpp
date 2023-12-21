@@ -21,9 +21,6 @@ int main(int argc, char* argv[])
         Display d;
         d.display(imagePath);
     }
-
-
-
     return 0;
 }
 

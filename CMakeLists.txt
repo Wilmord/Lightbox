@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.28)
 project( Lightbox )
 
 set(EXPORT_COMPILE_COMMANDS ON)
@@ -25,11 +25,8 @@ add_compile_options(
     # WX Treat warnings as errors.
     /WX
 )
-# This means the only thing you will need is the experimental key and this flag
-set(CMAKE_EXPERIMENTAL_CXX_MODULE_DYNDEP 1)
 endif()
 
-set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API "aa1f7df0-828a-4fcd-9afc-2dc80491aca7")
 set(CMAKE_CXX_STANDARD 20)
 
 # using Clang
