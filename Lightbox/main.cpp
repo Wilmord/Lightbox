@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-import Display;
+import DisplayManager;
 
 
 int main(int argc, char* argv[])
@@ -18,8 +18,9 @@ int main(int argc, char* argv[])
 
     if (argc > 1) {
         imagePath = argv[1];
-        Display d;
-        d.display(imagePath);
+        DisplayManager d(imagePath);
+        d.display();
+        d.drawHistogram();
     }
     return 0;
 }

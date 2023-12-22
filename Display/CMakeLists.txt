@@ -1,11 +1,11 @@
-add_library(Display)
+add_library(DisplayManager)
 
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 
-target_sources(Display
+target_sources(DisplayManager
   PUBLIC
     FILE_SET CXX_MODULES FILES
-    Display.cpp
+    DisplayManager.cpp
 )
 
-target_link_libraries(Display PRIVATE ${OpenCV_LIBS})
+target_link_libraries(DisplayManager PRIVATE ${OpenCV_LIBS})

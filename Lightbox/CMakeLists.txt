@@ -9,4 +9,4 @@ set(HEADERS
 )
 
 add_executable(Lightbox ${SOURCE} ${HEADERS} )
-target_link_libraries(Lightbox PRIVATE ${OpenCV_LIBS} Display)
+target_link_libraries(Lightbox PRIVATE ${OpenCV_LIBS} DisplayManager)
