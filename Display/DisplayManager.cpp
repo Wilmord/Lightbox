@@ -10,40 +10,57 @@ public:
     DisplayManager(const std::string& imageName)
     {
         std::string imagePath = cv::samples::findFile(imageName);
-        image = cv::imread(imageName, cv::IMREAD_COLOR);
-        if (image.empty())
+        mImage = cv::imread(imageName, cv::IMREAD_COLOR);
+        if (mImage.empty())
         {
             throw std::invalid_argument("Could not read the image!");
         }
     }
   ~DisplayManager() = default;
   void display();
+  void displayWithHistogram();
+  void displayTogether(const cv::Mat& imageLeft, const cv::Mat& imageRight);
+
   void write(const std::string& imageName);
-  void drawHistogram();
+  std::unique_ptr<cv::Mat> getHistogram(const cv::Mat& img);
 
 private:
-    cv::Mat image;
+    cv::Mat mImage;
 
 };
 
 void DisplayManager::display()
 { 
    cv::namedWindow("Display Window", cv::WINDOW_FULLSCREEN);
-   cv::imshow("Display Window", image);
-   //cv::waitKey();
+   cv::imshow("Display Window", mImage);
+   cv::waitKey();
  }
+
+void DisplayManager::displayTogether(const cv::Mat& imageLeft, const cv::Mat& imageRight)
+{
+    cv::Mat finalImage;
+    cv::hconcat(imageLeft, imageRight, finalImage);
+    cv::imshow("Image with Histogram", finalImage);
+    cv::waitKey();
+}
+
+void DisplayManager::displayWithHistogram()
+{
+    auto histImage = getHistogram(mImage);
+    displayTogether(mImage, *histImage);
+}
 
 void DisplayManager::write(const std::string& imageName)
 {
-    cv::imwrite(imageName, image);
+    cv::imwrite(imageName, mImage);
 }
 
-void DisplayManager::drawHistogram()
+std::unique_ptr<cv::Mat> DisplayManager::getHistogram(const cv::Mat& image)
 {
     std::vector<cv::Mat> bgr_planes;
     cv::split(image, bgr_planes);
 
-    int histSize = 256;
+    int histSize = 256; // number of bins
     float range[] = { 0, 256 }; //the upper boundary is exclusive
     const float* histRange[] = { range };
     bool uniform = true, accumulate = false;
@@ -53,7 +70,7 @@ void DisplayManager::drawHistogram()
     cv::calcHist(&bgr_planes[1], 1, 0, cv::Mat(), g_hist, 1, &histSize, histRange, uniform, accumulate);
     cv::calcHist(&bgr_planes[2], 1, 0, cv::Mat(), r_hist, 1, &histSize, histRange, uniform, accumulate);
     
-    int hist_w = 512, hist_h = 400;
+    int hist_w = image.cols, hist_h = image.rows;
     int bin_w = cvRound((double)hist_w / histSize);
     cv::Mat histImage(hist_h, hist_w, CV_8UC3, cv::Scalar(0, 0, 0));
     
@@ -73,6 +90,6 @@ void DisplayManager::drawHistogram()
             cv::Point(bin_w * (i), hist_h - cvRound(r_hist.at<float>(i))),
             cv::Scalar(0, 0, 255), 2, 8, 0);
     }
-    cv::imshow("calcHist Demo", histImage);
-    cv::waitKey();
+    return std::make_unique<cv::Mat>(histImage);
 }
+

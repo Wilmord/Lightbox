@@ -18,9 +18,8 @@ int main(int argc, char* argv[])
 
     if (argc > 1) {
         imagePath = argv[1];
-        DisplayManager d(imagePath);
-        d.display();
-        d.drawHistogram();
+        DisplayManager d(imagePath); 
+        d.displayWithHistogram();
     }
     return 0;
 }
