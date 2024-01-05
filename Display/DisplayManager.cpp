@@ -17,9 +17,9 @@ public:
         }
     }
   ~DisplayManager() = default;
-  void display();
+  void display() const;
   void displayWithHistogram();
-  void displayTogether(const cv::Mat& imageLeft, const cv::Mat& imageRight);
+  void displayTogether(const cv::Mat& imageLeft, const cv::Mat& imageRight) const;
 
   void write(const std::string& imageName);
   std::unique_ptr<cv::Mat> getHistogram(const cv::Mat& img);
@@ -29,14 +29,14 @@ private:
 
 };
 
-void DisplayManager::display()
+void DisplayManager::display() const
 { 
    cv::namedWindow("Display Window", cv::WINDOW_FULLSCREEN);
    cv::imshow("Display Window", mImage);
    cv::waitKey();
  }
 
-void DisplayManager::displayTogether(const cv::Mat& imageLeft, const cv::Mat& imageRight)
+void DisplayManager::displayTogether(const cv::Mat& imageLeft, const cv::Mat& imageRight) const
 {
     cv::Mat finalImage;
     cv::hconcat(imageLeft, imageRight, finalImage);
@@ -46,8 +46,7 @@ void DisplayManager::displayTogether(const cv::Mat& imageLeft, const cv::Mat& im
 
 void DisplayManager::displayWithHistogram()
 {
-    auto histImage = getHistogram(mImage);
-    displayTogether(mImage, *histImage);
+    displayTogether(mImage, *getHistogram(mImage));
 }
 
 void DisplayManager::write(const std::string& imageName)

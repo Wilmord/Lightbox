@@ -20,6 +20,8 @@ int main(int argc, char* argv[])
         imagePath = argv[1];
         DisplayManager d(imagePath); 
         d.displayWithHistogram();
+
+        d.write("MyAwesomeFile.jpeg");
     }
     return 0;
 }
